@@ -1,5 +1,7 @@
 'use strict';
 
+const path = require('path');
+
 const electron = require('electron');
 // Module to control application life.
 const app = electron.app;
@@ -12,10 +14,22 @@ let mainWindow;
 
 function createWindow () {
   // Create the browser window.
-  mainWindow = new BrowserWindow({width: 800, height: 600});
+  mainWindow = new BrowserWindow({width: 1024, height: 800});
 
   // and load the index.html of the app.
   mainWindow.loadURL('file://' + __dirname + '/node_modules/opentype.js/glyph-inspector.html');
+
+  if (process.argv.length > 2) {
+    let font = 'file://' + path.resolve(process.argv[2]);
+    let fontName = path.basename(font);
+    mainWindow.on('show', function () {
+      mainWindow.webContents.executeJavaScript(`document.getElementById('font-name').innerHTML = '${fontName}';
+        opentype.load("${font}", function (err, font) {
+          onFontLoaded(font);
+        })`
+      );
+    });
+  }
 
   // Emitted when the window is closed.
   mainWindow.on('closed', function() {
