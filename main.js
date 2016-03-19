@@ -14,7 +14,7 @@ let mainWindow;
 
 function createWindow () {
   // Create the browser window.
-  mainWindow = new BrowserWindow({width: 1024, height: 800});
+  mainWindow = new BrowserWindow({width: 1024, height: 940});
 
   // and load the index.html of the app.
   mainWindow.loadURL('file://' + __dirname + '/node_modules/opentype.js/glyph-inspector.html');
